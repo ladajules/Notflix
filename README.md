@@ -1,4 +1,2 @@
 # Notflix
-temporary 
-
-test change
+Notflix is a mobile movie streaming application inspired by Netflix. The application allows users to browse movies and TV shows, view detailed information, and manage a personalized watchlist. It replicates the core features of Netflix using publicly available movie data while adding original features to enhance user experience. The application is developed for educational purposes only.

@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">Notflix</string>
+
+    <!-- Onboarding -->
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="get_started">Get Started</string>
+
+    <!-- Login -->
+    <string name="email_phone_hint">Email or phone number</string>
+    <string name="password_hint">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="new_to_notflix">New to Notflix?</string>
+    <string name="sign_up_now">Sign up now.</string>
+
+    <!-- Signup -->
+    <string name="create_account_title">Create Account</string>
+    <string name="join_notflix">Join Notflix today</string>
+    <string name="name_hint">Name</string>
+    <string name="email_hint">Email</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="sign_in_link">Sign in.</string>
+
+    <!-- Password Strength -->
+    <string name="password_strength">Password Strength:</string>
+    <string name="weak">Weak</string>
+    <string name="medium">Medium</string>
+    <string name="strong">Strong</string>
+
+    <!-- Common -->
+    <string name="back">Back</string>
 </resources>

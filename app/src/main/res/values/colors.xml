@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Netflix Brand Colors -->
+    <color name="netflix_black">#000000</color>
+    <color name="netflix_red">#E50914</color>
+    <color name="netflix_dark_red">#B20710</color>
+
+    <!-- Background Colors -->
+    <color name="background_black">#000000</color>
+    <color name="background_dark_gray">#141414</color>
+    <color name="background_gray">#2F2F2F</color>
+
+    <!-- Text Colors -->
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_gray">#B3B3B3</color>
+    <color name="text_light_gray">#E5E5E5</color>
+    <color name="text_dark_gray">#808080</color>
+
+    <!-- Button Colors -->
+    <color name="button_primary">#E50914</color>
+    <color name="button_primary_pressed">#B20710</color>
+    <color name="button_secondary">#FFFFFF</color>
+    <color name="button_secondary_text">#000000</color>
+
+    <!-- Input Colors -->
+    <color name="input_background">#333333</color>
+    <color name="input_border">#808080</color>
+    <color name="input_border_focused">#FFFFFF</color>
+    <color name="input_error">#E87C03</color>
+
+    <!-- Password Strength Colors -->
+    <color name="password_weak">#E50914</color>
+    <color name="password_medium">#FFA500</color>
+    <color name="password_strong">#46D369</color>
+
+    <!-- Overlay Colors -->
+    <color name="overlay_black_50">#80000000</color>
+    <color name="overlay_black_70">#B3000000</color>
+    <color name="overlay_black_90">#E6000000</color>
+
+    <!-- Gradient Colors for Hero -->
+    <color name="gradient_start">#00000000</color>
+    <color name="gradient_end">#000000</color>
+
+    <!-- Status Bar -->
+    <color name="status_bar_transparent">#00000000</color>
+
+    <!-- Default Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
 </resources>

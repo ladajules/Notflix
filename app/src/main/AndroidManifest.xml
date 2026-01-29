@@ -12,14 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Notflix">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.splash.SplashActivity"
+            android:theme="@style/Theme.Notflix.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.onboarding.OnboardingActivity"
+            android:theme="@style/Theme.Notflix"
+            android:exported="false" />
+
     </application>
 
 </manifest>

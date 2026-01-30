@@ -8,12 +8,11 @@ import android.os.Looper
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.ladajules.notflix.R
-import com.ladajules.notflix.ui.auth.LoginActivity
 import com.ladajules.notflix.ui.onboarding.OnboardingActivity
 import com.ladajules.notflix.ui.profile.ProfileSelectionActivity
-import com.ladajules.notflix.ui.landing.LandingActivity
 import com.ladajules.notflix.utils.Constants
 import com.ladajules.notflix.utils.PreferenceManager
+import com.ladajules.notflix.ui.landing.LandingActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -54,11 +53,11 @@ class SplashActivity : AppCompatActivity() {
 //                }
 //                // Otherwise, go to Login
 //                else -> {
-//                    Intent(this, LoginActivity::class.java)
+//                    Intent(this, LandingActivity::class.java)
 //                }
 //            }
 
-            // Always navigate to Landing Page for now
+            // Always navigate to Onboarding Page for now
             val intent = Intent(this, OnboardingActivity::class.java)
 
             startActivity(intent)

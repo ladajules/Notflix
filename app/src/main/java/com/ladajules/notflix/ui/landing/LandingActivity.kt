@@ -1,17 +1,16 @@
 package com.ladajules.notflix.ui.landing
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ladajules.notflix.R
-import com.ladajules.notflix.adapter.HeroImageAdapter
-import com.ladajules.notflix.data.model.HeroImage
+import com.ladajules.notflix.adapter.LandingPagerAdapter
 import com.ladajules.notflix.databinding.ActivityLandingBinding
 import com.ladajules.notflix.ui.auth.LoginActivity
 import com.ladajules.notflix.ui.auth.SignupActivity
@@ -19,81 +18,61 @@ import com.ladajules.notflix.ui.auth.SignupActivity
 class LandingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLandingBinding
-    private lateinit var heroImageAdapter: HeroImageAdapter
-
-    // Auto-scroll handler
-    private val sliderHandler = Handler(Looper.getMainLooper())
-    private val sliderRunnable = Runnable {
-        if (binding.viewPagerHero.currentItem < heroImages.size - 1) {
-            binding.viewPagerHero.currentItem = binding.viewPagerHero.currentItem + 1
-        } else {
-            binding.viewPagerHero.currentItem = 0
-        }
-    }
-
-    // Data for the slider
-    private val heroImages = listOf(
-        HeroImage(R.drawable.onboarding_1, "Movies, shows,\nand games in just\na few taps"),
-        HeroImage(R.drawable.onboarding_2, "Download and watch\noffline"),
-        HeroImage(R.drawable.onboarding_3, "No ads,\nno interruptions"),
-        HeroImage(R.drawable.onboarding_4, "Watch anywhere.\nCancel anytime.")
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLandingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupUI()
+        setupEdgeToEdge()
         setupViewPager()
-        setupListeners()
+        setupClickListeners()
     }
 
-    private fun setupUI() {
-        // Transparent Status Bar (Edge-to-Edge)
+    private fun setupEdgeToEdge() {
+        // Modern edge-to-edge display (replaces deprecated systemUiVisibility)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.statusBarColor = Color.TRANSPARENT
+
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController?.apply {
+            hide(WindowInsetsCompat.Type.systemBars())
+            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
+        // Make status bar transparent
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
+        window.navigationBarColor = android.graphics.Color.TRANSPARENT
     }
 
     private fun setupViewPager() {
-        heroImageAdapter = HeroImageAdapter(heroImages)
-        binding.viewPagerHero.adapter = heroImageAdapter
+        val adapter = LandingPagerAdapter()
+        binding.viewPager.adapter = adapter
 
-        // Attach Dots (TabLayout)
-        TabLayoutMediator(binding.tabLayoutDots, binding.viewPagerHero) { _, _ ->
-            // No text for tabs, just dots
-        }.attach()
-
-        // Auto-scroll logic
-        binding.viewPagerHero.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                sliderHandler.removeCallbacks(sliderRunnable)
-                sliderHandler.postDelayed(sliderRunnable, 4000) // 4 seconds delay
-            }
-        })
+        // Optional: Auto-scroll (uncomment if you want)
+        // startAutoScroll()
     }
 
-    private fun setupListeners() {
-        // "Sign In" button (Top Right)
+    private fun setupClickListeners() {
+        // Sign In button (top right)
         binding.btnSignIn.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
-        // "Create Account" red box (Bottom)
-        // Even though text says "Go to netflix.com", we route to Signup for the app flow
-        binding.footerContainer.setOnClickListener {
+        // Create Account button (bottom)
+        binding.btnCreateAccount.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        sliderHandler.removeCallbacks(sliderRunnable)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        sliderHandler.postDelayed(sliderRunnable, 4000)
+    // Optional: Auto-scroll implementation
+    private fun startAutoScroll() {
+        binding.viewPager.postDelayed(object : Runnable {
+            override fun run() {
+                val currentItem = binding.viewPager.currentItem
+                val nextItem = (currentItem + 1) % 4
+                binding.viewPager.setCurrentItem(nextItem, true)
+                binding.viewPager.postDelayed(this, 3000)
+            }
+        }, 3000)
     }
 }

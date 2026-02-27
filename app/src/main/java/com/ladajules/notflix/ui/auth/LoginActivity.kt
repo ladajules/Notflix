@@ -60,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Back Button
-        binding.ivBack.setOnClickListener {
+        binding.ibBack.setOnClickListener {
             finish()
         }
     }
@@ -155,7 +155,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        //binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         binding.btnSignIn.isEnabled = !isLoading
         binding.etEmail.isEnabled = !isLoading
         binding.etPassword.isEnabled = !isLoading

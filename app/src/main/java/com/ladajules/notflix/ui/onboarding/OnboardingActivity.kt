@@ -86,21 +86,15 @@ class OnboardingActivity : AppCompatActivity() {
                 finishOnboarding()
             }
         }
-
-        binding.tvSkip.setOnClickListener {
-            finishOnboarding()
-        }
     }
 
     private fun updateButtonText(position: Int) {
         if (position == onboardingItems.size - 1) {
             // Last page
             binding.btnNext.text = "Get Started"
-            binding.tvSkip.visibility = View.GONE
         } else {
             // Other pages
             binding.btnNext.text = "Next"
-            binding.tvSkip.visibility = View.VISIBLE
         }
     }
 

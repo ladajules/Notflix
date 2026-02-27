@@ -65,7 +65,7 @@ class SignupActivity : AppCompatActivity() {
         }
 
         // Back Button
-        binding.ivBack.setOnClickListener {
+        binding.ibBack.setOnClickListener {
             finish()
         }
     }

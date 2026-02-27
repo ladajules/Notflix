@@ -45,7 +45,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:paddingTop">14dp</item>
         <item name="android:paddingBottom">14dp</item>
-        <item name="cornerRadius">4dp</item>
+        <item name="cornerRadius">6dp</item>
         <item name="android:elevation">0dp</item>
     </style>
 

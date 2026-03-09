@@ -11,9 +11,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.ladajules.notflix.R
 import com.ladajules.notflix.adapter.OnboardingAdapter
 import com.ladajules.notflix.data.model.OnboardingItem
+import com.ladajules.notflix.data.model.Profile
 import com.ladajules.notflix.data.repository.UserRepository
 import com.ladajules.notflix.databinding.ActivityOnboardingBinding
 import com.ladajules.notflix.ui.main.MainActivity
+import com.ladajules.notflix.ui.profile.ProfileSelectionActivity
 import com.ladajules.notflix.utils.PreferenceManager
 import com.ladajules.notflix.utils.showToast
 import kotlinx.coroutines.launch
@@ -120,7 +122,7 @@ class OnboardingActivity : AppCompatActivity() {
                     preferenceManager.onboardingCompleted = true
 
                     // Navigate to MainActivity
-                    navigateToMainActivity()
+                    navigateToProfileSelectionActivity()
                 } else {
                     val error = result.exceptionOrNull()
                     showToast("Failed to update: ${error?.message}")
@@ -129,12 +131,12 @@ class OnboardingActivity : AppCompatActivity() {
         } else {
             // No user ID, just save locally and navigate
             preferenceManager.onboardingCompleted = true
-            navigateToMainActivity()
+            navigateToProfileSelectionActivity()
         }
     }
 
-    private fun navigateToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun navigateToProfileSelectionActivity() {
+        val intent = Intent(this, ProfileSelectionActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()

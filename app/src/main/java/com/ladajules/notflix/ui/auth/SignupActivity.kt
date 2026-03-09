@@ -7,25 +7,27 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.ladajules.notflix.R
+import com.ladajules.notflix.data.model.Profile
 import com.ladajules.notflix.data.model.User
 import com.ladajules.notflix.data.repository.AuthRepository
+import com.ladajules.notflix.data.repository.ProfileRepository
 import com.ladajules.notflix.data.repository.UserRepository
 import com.ladajules.notflix.databinding.ActivitySignupBinding
 import com.ladajules.notflix.ui.onboarding.OnboardingActivity
-import com.ladajules.notflix.ui.profile.ProfileSelectionActivity
 import com.ladajules.notflix.utils.PreferenceManager
 import com.ladajules.notflix.utils.ValidationUtils
 import com.ladajules.notflix.utils.getColorCompat
 import com.ladajules.notflix.utils.hideKeyboard
 import com.ladajules.notflix.utils.showToast
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class SignupActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignupBinding
     private lateinit var authRepository: AuthRepository
     private lateinit var userRepository: UserRepository
+    private lateinit var profileRepository: ProfileRepository
     private lateinit var preferenceManager: PreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +38,7 @@ class SignupActivity : AppCompatActivity() {
         // Initialize repositories
         authRepository = AuthRepository()
         userRepository = UserRepository()
+        profileRepository = ProfileRepository()
         preferenceManager = PreferenceManager(this)
 
         setupUI()
@@ -165,6 +168,22 @@ class SignupActivity : AppCompatActivity() {
                         val userResult = userRepository.createUser(user)
 
                         if (userResult.isSuccess) {
+                            // Create default profile for the user
+                            val defaultProfile = Profile(
+                                id = UUID.randomUUID().toString(),
+                                userId = result.userId,
+                                name = name, // Use the user's name as default profile name
+                                avatarUrl = "default",
+                                createdAt = System.currentTimeMillis()
+                            )
+                            
+                            val profileResult = profileRepository.createProfile(defaultProfile)
+                            
+                            if (profileResult.isSuccess) {
+                                // Save selected profile ID
+                                preferenceManager.selectedProfileId = profileResult.getOrNull()
+                            }
+
                             // Save user session
                             preferenceManager.isLoggedIn = true
                             preferenceManager.userId = result.userId
@@ -173,7 +192,7 @@ class SignupActivity : AppCompatActivity() {
                             showLoading(false)
                             showToast("Account created successfully!")
 
-                            // Navigate to Profile Selection
+                            // Navigate to Onboarding
                             navigateToOnboarding()
                         } else {
                             showLoading(false)

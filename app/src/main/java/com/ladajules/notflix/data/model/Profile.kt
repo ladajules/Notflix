@@ -9,7 +9,6 @@ data class Profile(
     val userId: String = "",
     val name: String = "",
     val avatarUrl: String = "",
-    val isKidsProfile: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) : Parcelable {
 
@@ -20,7 +19,6 @@ data class Profile(
             "userId" to userId,
             "name" to name,
             "avatarUrl" to avatarUrl,
-            "isKidsProfile" to isKidsProfile,
             "createdAt" to createdAt
         )
     }
@@ -33,7 +31,6 @@ data class Profile(
                 userId = map["userId"] as? String ?: "",
                 name = map["name"] as? String ?: "",
                 avatarUrl = map["avatarUrl"] as? String ?: "",
-                isKidsProfile = map["isKidsProfile"] as? Boolean ?: false,
                 createdAt = map["createdAt"] as? Long ?: System.currentTimeMillis()
             )
         }

@@ -66,7 +66,7 @@ class OnboardingActivity : AppCompatActivity() {
         binding.viewPager.adapter = onboardingAdapter
 
         // Setup dots indicator
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ -> }.attach()
+        TabLayoutMediator(binding.tabLayoutOnboarding, binding.viewPager) { _, _ -> }.attach()
 
         // Listen to page changes
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

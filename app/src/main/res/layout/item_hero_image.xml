@@ -9,21 +9,12 @@
     <!-- Movie Posters Grid -->
     <ImageView
         android:id="@+id/ivHeroImage"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/onboarding_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="Hero Image" />
 
-    <!-- Dark Gradient Overlay at Bottom -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/gradient_bottom_overlay"/>
 
     <!-- Title Text Overlay -->
     <TextView

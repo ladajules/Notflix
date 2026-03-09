@@ -48,8 +48,13 @@ class LandingActivity : AppCompatActivity() {
         val adapter = LandingPagerAdapter()
         binding.viewPager.adapter = adapter
 
-        // Optional: Auto-scroll (uncomment if you want)
-        // startAutoScroll()
+        // Connect TabLayout with ViewPager
+        TabLayoutMediator(binding.tabLayoutLanding, binding.viewPager) { _, _ ->
+            // No text needed for dots
+        }.attach()
+
+        // Enable auto-scroll
+        startAutoScroll()
     }
 
     private fun setupClickListeners() {

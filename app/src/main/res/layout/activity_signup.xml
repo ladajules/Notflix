@@ -113,6 +113,7 @@
                 android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
                 app:hintEnabled="false"
@@ -126,33 +127,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
-                    android:inputType="textPassword"
-                    android:background="@drawable/edittext_background"
-                    android:textColor="@color/text_white"
-                    android:textColorHint="@color/text_dark_gray"
-                    android:textSize="16sp"
-                    android:padding="16dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Confirm Password Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilConfirmPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:hintEnabled="false"
-                app:errorEnabled="true"
-                app:errorTextColor="@color/input_error"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/text_dark_gray">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etConfirmPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Confirm Password"
                     android:inputType="textPassword"
                     android:background="@drawable/edittext_background"
                     android:textColor="@color/text_white"

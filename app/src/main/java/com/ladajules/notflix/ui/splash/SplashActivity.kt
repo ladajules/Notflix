@@ -13,6 +13,7 @@ import com.ladajules.notflix.ui.profile.ProfileSelectionActivity
 import com.ladajules.notflix.utils.Constants
 import com.ladajules.notflix.utils.PreferenceManager
 import com.ladajules.notflix.ui.landing.LandingActivity
+import com.ladajules.notflix.ui.main.MainActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -42,23 +43,19 @@ class SplashActivity : AppCompatActivity() {
 
     private fun navigateToNextScreen() {
         Handler(Looper.getMainLooper()).postDelayed({
-//            val intent = when {
-//                // If user is logged in with Remember Me, go to Profile Selection
-//                preferenceManager.isLoggedIn && preferenceManager.rememberMe -> {
-//                    Intent(this, ProfileSelectionActivity::class.java)
-//                }
-//                // If onboarding not completed, show onboarding
-//                !preferenceManager.onboardingCompleted -> {
-//                    Intent(this, OnboardingActivity::class.java)
-//                }
-//                // Otherwise, go to Login
-//                else -> {
-//                    Intent(this, LandingActivity::class.java)
-//                }
-//            }
+            val intent = when {
+                // If user is logged in with Remember Me, go to Profile Selection
+                preferenceManager.isLoggedIn && preferenceManager.rememberMe -> {
+                    Intent(this, LandingActivity::class.java) // change to ProfileSelectionActivity after
+                }
+                // Otherwise, go to Login
+                else -> {
+                    Intent(this, LandingActivity::class.java)
+                }
+            }
 
             // Always navigate to Onboarding Page for now
-            val intent = Intent(this, OnboardingActivity::class.java)
+            //val intent = Intent(this, OnboardingActivity::class.java)
 
             startActivity(intent)
             finish()

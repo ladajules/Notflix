@@ -2,22 +2,20 @@ package com.ladajules.notflix.ui.landing
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
-import com.ladajules.notflix.R
 import com.ladajules.notflix.adapter.LandingPagerAdapter
 import com.ladajules.notflix.databinding.ActivityLandingBinding
-import com.ladajules.notflix.ui.auth.LoginActivity
+import com.ladajules.notflix.ui.auth.SignInActivity
 import com.ladajules.notflix.ui.auth.SignupActivity
 
 class LandingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLandingBinding
+    private var autoScrollRunnable: Runnable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +25,16 @@ class LandingActivity : AppCompatActivity() {
         setupEdgeToEdge()
         setupViewPager()
         setupClickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startAutoScroll()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopAutoScroll()
     }
 
     private fun setupEdgeToEdge() {
@@ -52,32 +60,43 @@ class LandingActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayoutLanding, binding.viewPager) { _, _ ->
             // No text needed for dots
         }.attach()
-
-        // Enable auto-scroll
-        startAutoScroll()
     }
 
     private fun setupClickListeners() {
         // Sign In button (top right)
         binding.btnSignIn.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
         }
 
         // Create Account button (bottom)
         binding.btnCreateAccount.setOnClickListener {
-            startActivity(Intent(this, SignupActivity::class.java))
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
         }
     }
 
-    // Optional: Auto-scroll implementation
     private fun startAutoScroll() {
-        binding.viewPager.postDelayed(object : Runnable {
+        stopAutoScroll() // Clear any existing callbacks first
+        autoScrollRunnable = object : Runnable {
             override fun run() {
                 val currentItem = binding.viewPager.currentItem
                 val nextItem = (currentItem + 1) % 4
                 binding.viewPager.setCurrentItem(nextItem, true)
-                binding.viewPager.postDelayed(this, 3000)
+                autoScrollRunnable?.let {
+                    binding.viewPager.postDelayed(it, 3000)
+                }
             }
-        }, 3000)
+        }
+        autoScrollRunnable?.let {
+            binding.viewPager.postDelayed(it, 3000)
+        }
+    }
+
+    private fun stopAutoScroll() {
+        autoScrollRunnable?.let {
+            binding.viewPager.removeCallbacks(it)
+        }
+        autoScrollRunnable = null
     }
 }

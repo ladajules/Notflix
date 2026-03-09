@@ -130,14 +130,14 @@
                 android:layout_marginBottom="16dp"/>
 
             <!-- Progress Bar -->
-<!--            <ProgressBar-->
-<!--                android:id="@+id/progressBar"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:visibility="gone"-->
-<!--                android:indeterminateTint="@color/netflix_red"-->
-<!--                android:layout_marginBottom="16dp"/>-->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:indeterminateTint="@color/netflix_red"
+                android:layout_marginBottom="16dp"/>
 
             <!-- Sign Up Link -->
             <LinearLayout

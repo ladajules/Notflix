@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.ladajules.notflix.R
 import com.ladajules.notflix.data.repository.AuthRepository
 import com.ladajules.notflix.data.repository.UserRepository
 import com.ladajules.notflix.databinding.ActivityLoginBinding
+import com.ladajules.notflix.ui.main.MainActivity
 import com.ladajules.notflix.ui.onboarding.OnboardingActivity
 import com.ladajules.notflix.ui.profile.ProfileSelectionActivity
 import com.ladajules.notflix.utils.PreferenceManager
@@ -17,7 +17,7 @@ import com.ladajules.notflix.utils.hideKeyboard
 import com.ladajules.notflix.utils.showToast
 import kotlinx.coroutines.launch
 
-class LoginActivity : AppCompatActivity() {
+class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var authRepository: AuthRepository
@@ -96,46 +96,54 @@ class LoginActivity : AppCompatActivity() {
         showLoading(true)
 
         lifecycleScope.launch {
-            when (val result = authRepository.signIn(email, password)) {
-                is AuthRepository.AuthResult.Success -> {
-                    // Update last login
-                    userRepository.updateLastLogin(result.userId)
+            try {
+                when (val result = authRepository.signIn(email, password)) {
+                    is AuthRepository.AuthResult.Success -> {
+                        // Update last login
+                        userRepository.updateLastLogin(result.userId)
 
-                    // Get user data to check onboarding status
-                    val userResult = userRepository.getUser(result.userId)
+                        // Get user data to check onboarding status
+                        val userResult = userRepository.getUser(result.userId)
 
-                    if (userResult.isSuccess) {
-                        val user = userResult.getOrNull()
+                        if (userResult.isSuccess) {
+                            val user = userResult.getOrNull()
 
-                        if (user != null) {
-                            // Save user session
-                            preferenceManager.isLoggedIn = true
-                            preferenceManager.userId = result.userId
-                            preferenceManager.rememberMe = rememberMe
+                            if (user != null) {
+                                // Save user session
+                                preferenceManager.isLoggedIn = true
+                                preferenceManager.userId = result.userId
+                                preferenceManager.rememberMe = rememberMe
 
-                            showLoading(false)
+                                showLoading(false)
 
-                            // Check if user has completed onboarding
-                            if (user.hasCompletedOnboarding) {
-                                // Go directly to Profile Selection
-                                navigateToProfileSelection()
+                                // Check if user has completed onboarding
+                                if (user.hasCompletedOnboarding) {
+                                    // Go directly to Profile Selection
+                                    navigateToProfileSelection()
+                                } else {
+                                    // First time login - show onboarding
+                                    navigateToOnboarding()
+                                }
                             } else {
-                                // First time login - show onboarding
-                                navigateToOnboarding()
+                                showLoading(false)
+                                showToast("User data not found. Please try again.")
                             }
                         } else {
                             showLoading(false)
-                            showToast("User data not found. Please try again.")
+                            showToast("Failed to load user data. Please try again.")
                         }
-                    } else {
+                    }
+                    is AuthRepository.AuthResult.Error -> {
                         showLoading(false)
-                        showToast("Failed to load user data. Please try again.")
+                        showToast(result.message)
                     }
                 }
-                is AuthRepository.AuthResult.Error -> {
-                    showLoading(false)
-                    showToast(result.message)
-                }
+            } catch (e: IllegalStateException) {
+                showLoading(false)
+                showToast("Firebase not configured. Please check your setup.")
+            } catch (e: Exception) {
+                showLoading(false)
+                showToast("An error occurred: ${e.message}")
             }
         }
     }
@@ -148,14 +156,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToProfileSelection() {
-        val intent = Intent(this, ProfileSelectionActivity::class.java)
+        val intent = Intent(this, ProfileSelectionActivity::class.java) // change back to ProfileSelectionActivity
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
 
     private fun showLoading(isLoading: Boolean) {
-        //binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         binding.btnSignIn.isEnabled = !isLoading
         binding.etEmail.isEnabled = !isLoading
         binding.etPassword.isEnabled = !isLoading

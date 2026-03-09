@@ -105,6 +105,7 @@ class SignupActivity : AppCompatActivity() {
         val name = binding.etName.text.toString().trim()
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
+        val confirmPassword = binding.etConfirmPassword.text.toString().trim()
 
         // Clear previous errors
         binding.tilName.error = null
@@ -132,6 +133,13 @@ class SignupActivity : AppCompatActivity() {
             return
         }
 
+        // Validate confirm password
+        val confirmPasswordValidation = ValidationUtils.validateConfirmPassword(password, confirmPassword)
+        if (!confirmPasswordValidation.isValid) {
+            binding.tilConfirmPassword.error = "Passwords do not match"
+            return
+        }
+
         // Proceed with sign up
         signUp(name, email, password)
     }
@@ -140,41 +148,49 @@ class SignupActivity : AppCompatActivity() {
         showLoading(true)
 
         lifecycleScope.launch {
-            // First, create Firebase Auth account
-            when (val result = authRepository.signUp(email, password)) {
-                is AuthRepository.AuthResult.Success -> {
-                    // Create user document in Firestore
-                    val user = User(
-                        id = result.userId,
-                        name = name,
-                        email = email,
-                        hasCompletedOnboarding = false,
-                        createdAt = System.currentTimeMillis(),
-                        lastLoginAt = System.currentTimeMillis()
-                    )
+            try {
+                // First, create Firebase Auth account
+                when (val result = authRepository.signUp(email, password)) {
+                    is AuthRepository.AuthResult.Success -> {
+                        // Create user document in Firestore
+                        val user = User(
+                            id = result.userId,
+                            name = name,
+                            email = email,
+                            hasCompletedOnboarding = false,
+                            createdAt = System.currentTimeMillis(),
+                            lastLoginAt = System.currentTimeMillis()
+                        )
 
-                    val userResult = userRepository.createUser(user)
+                        val userResult = userRepository.createUser(user)
 
-                    if (userResult.isSuccess) {
-                        // Save user session
-                        preferenceManager.isLoggedIn = true
-                        preferenceManager.userId = result.userId
-                        preferenceManager.rememberMe = true // Auto remember on signup
+                        if (userResult.isSuccess) {
+                            // Save user session
+                            preferenceManager.isLoggedIn = true
+                            preferenceManager.userId = result.userId
+                            preferenceManager.rememberMe = true // Auto remember on signup
 
+                            showLoading(false)
+                            showToast("Account created successfully!")
+
+                            // Navigate to Profile Selection
+                            navigateToOnboarding()
+                        } else {
+                            showLoading(false)
+                            showToast("Failed to create user profile. Please try again.")
+                        }
+                    }
+                    is AuthRepository.AuthResult.Error -> {
                         showLoading(false)
-                        showToast("Account created successfully!")
-
-                        // Navigate to Profile Selection
-                        navigateToOnboarding()
-                    } else {
-                        showLoading(false)
-                        showToast("Failed to create user profile. Please try again.")
+                        showToast(result.message)
                     }
                 }
-                is AuthRepository.AuthResult.Error -> {
-                    showLoading(false)
-                    showToast(result.message)
-                }
+            } catch (e: IllegalStateException) {
+                showLoading(false)
+                showToast("Firebase not configured. Please check your setup.")
+            } catch (e: Exception) {
+                showLoading(false)
+                showToast("An error occurred: ${e.message}")
             }
         }
     }

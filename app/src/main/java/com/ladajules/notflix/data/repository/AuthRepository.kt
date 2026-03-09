@@ -27,6 +27,8 @@ class AuthRepository {
             } else {
                 AuthResult.Error("Failed to create account. Please try again.")
             }
+        } catch (e: IllegalStateException) {
+            AuthResult.Error("Firebase not initialized. Check google-services.json.")
         } catch (e: FirebaseAuthWeakPasswordException) {
             AuthResult.Error("Password is too weak. Please use a stronger password.")
         } catch (e: FirebaseAuthInvalidCredentialsException) {
@@ -48,6 +50,8 @@ class AuthRepository {
             } else {
                 AuthResult.Error("Failed to sign in. Please try again.")
             }
+        } catch (e: IllegalStateException) {
+            AuthResult.Error("Firebase not initialized. Check google-services.json.")
         } catch (e: FirebaseAuthInvalidUserException) {
             AuthResult.Error("No account found with this email.")
         } catch (e: FirebaseAuthInvalidCredentialsException) {

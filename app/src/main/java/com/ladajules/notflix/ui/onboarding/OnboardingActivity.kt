@@ -5,19 +5,24 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ladajules.notflix.R
 import com.ladajules.notflix.adapter.OnboardingAdapter
 import com.ladajules.notflix.data.model.OnboardingItem
+import com.ladajules.notflix.data.repository.UserRepository
 import com.ladajules.notflix.databinding.ActivityOnboardingBinding
-import com.ladajules.notflix.ui.landing.LandingActivity
+import com.ladajules.notflix.ui.main.MainActivity
 import com.ladajules.notflix.utils.PreferenceManager
+import com.ladajules.notflix.utils.showToast
+import kotlinx.coroutines.launch
 
 class OnboardingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOnboardingBinding
     private lateinit var preferenceManager: PreferenceManager
+    private lateinit var userRepository: UserRepository
     private lateinit var onboardingAdapter: OnboardingAdapter
 
     private val onboardingItems = listOf(
@@ -49,6 +54,7 @@ class OnboardingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         preferenceManager = PreferenceManager(this)
+        userRepository = UserRepository()
 
         setupUI()
         setupViewPager()
@@ -99,13 +105,39 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun finishOnboarding() {
-        preferenceManager.onboardingCompleted = true // temporary
+        val userId = preferenceManager.userId
 
-        val intent = Intent(this, LandingActivity::class.java)
-        //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        if (userId != null) {
+            // Update Firestore
+            lifecycleScope.launch {
+                val result = userRepository.updateUser(
+                    userId,
+                    mapOf("hasCompletedOnboarding" to true)
+                )
+
+                if (result.isSuccess) {
+                    // Save locally
+                    preferenceManager.onboardingCompleted = true
+
+                    // Navigate to MainActivity
+                    navigateToMainActivity()
+                } else {
+                    val error = result.exceptionOrNull()
+                    showToast("Failed to update: ${error?.message}")
+                }
+            }
+        } else {
+            // No user ID, just save locally and navigate
+            preferenceManager.onboardingCompleted = true
+            navigateToMainActivity()
+        }
+    }
+
+    private fun navigateToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
-        //finish()
-
+        finish()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 }

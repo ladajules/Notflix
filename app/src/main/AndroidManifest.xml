@@ -51,6 +51,11 @@
             android:theme="@style/Theme.Notflix"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:theme="@style/Theme.Notflix"
+            android:exported="false" />
+
     </application>
 
 </manifest>

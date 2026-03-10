@@ -65,7 +65,7 @@ class ProfileSelectionActivity : AppCompatActivity() {
     private fun loadProfiles() {
         val userId = preferenceManager.userId
         if (userId == null) {
-            Log.e(TAG, "No user ID found")
+            //Log.e(TAG, "No user ID found")
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
             return
         }
@@ -77,7 +77,7 @@ class ProfileSelectionActivity : AppCompatActivity() {
                 profiles = profileList
                 profileAdapter.submitList(profiles, Constants.MAX_PROFILES_PER_USER)
                 
-                // If user has no profiles, show message to add one
+                // if user has no profiles, show message to add one
                 if (profiles.isEmpty()) {
                     Toast.makeText(
                         this@ProfileSelectionActivity, 
@@ -133,7 +133,7 @@ class ProfileSelectionActivity : AppCompatActivity() {
                     "Profile created successfully", 
                     Toast.LENGTH_SHORT
                 ).show()
-                // Reload profiles to show the new one
+
                 loadProfiles()
             }.onFailure { error ->
                 Log.e(TAG, "Failed to create profile", error)
@@ -148,7 +148,6 @@ class ProfileSelectionActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Reload profiles in case they were modified
         loadProfiles()
     }
 }

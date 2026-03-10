@@ -46,7 +46,7 @@ class SplashActivity : AppCompatActivity() {
             val intent = when {
                 // If user is logged in with Remember Me, go to Profile Selection
                 preferenceManager.isLoggedIn && preferenceManager.rememberMe -> {
-                    Intent(this, LandingActivity::class.java) // change to ProfileSelectionActivity after
+                    Intent(this, ProfileSelectionActivity::class.java) // change to ProfileSelectionActivity after
                 }
                 // Otherwise, go to Login
                 else -> {

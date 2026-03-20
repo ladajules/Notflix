@@ -31,10 +31,12 @@
                     android:scaleType="centerCrop"
                     android:contentDescription="Featured title backdrop" />
 
-                <View
+                <ImageButton
+                    android:id="@+id/ibProfile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_hero_scrim" />
+                    android:background="@drawable/bg_hero_scrim"
+                    android:clickable="true" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

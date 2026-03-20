@@ -176,7 +176,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvContinueWatching"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:clipToPadding="false"
                 android:paddingStart="16dp"
@@ -199,7 +199,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTop10"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:clipToPadding="false"
                 android:paddingStart="16dp"
@@ -222,7 +222,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvNewReleases"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:clipToPadding="false"
                 android:paddingStart="16dp"
@@ -245,7 +245,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTrending"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:clipToPadding="false"
                 android:paddingStart="16dp"
@@ -268,7 +268,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBecauseYouWatched"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:clipToPadding="false"
                 android:paddingStart="16dp"

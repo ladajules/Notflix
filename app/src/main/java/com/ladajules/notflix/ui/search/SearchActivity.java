@@ -55,7 +55,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        searchAdapter = new MovieAdapter(this::onMovieClick);
+        searchAdapter = new MovieAdapter(this::onMovieClick, true);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         rvSearchResults.setLayoutManager(layoutManager);
         rvSearchResults.setAdapter(searchAdapter);

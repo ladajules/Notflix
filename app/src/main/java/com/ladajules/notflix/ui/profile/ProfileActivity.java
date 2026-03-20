@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ladajules.notflix.R;
 import com.ladajules.notflix.data.repository.ProfileRepository;
 import com.ladajules.notflix.databinding.ActivityProfileBinding;
+import com.ladajules.notflix.ui.download.DownloadsActivity;
 import com.ladajules.notflix.ui.main.MainActivity;
 import com.ladajules.notflix.ui.search.SearchActivity;
 import com.ladajules.notflix.utils.PreferenceManager;
@@ -61,6 +62,9 @@ public class ProfileActivity extends AppCompatActivity {
                 return false;
             } else if (itemId == R.id.nav_profile) {
                 return true;
+            } else if (itemId == R.id.nav_downloads) {
+                startActivity(new Intent(ProfileActivity.this, DownloadsActivity.class));
+                return false;
             }
             return true;
         });

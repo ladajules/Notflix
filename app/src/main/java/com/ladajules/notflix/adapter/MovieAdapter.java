@@ -1,7 +1,9 @@
 package com.ladajules.notflix.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.ladajules.notflix.R;
 import com.ladajules.notflix.data.model.Movie;
-import com.ladajules.notflix.databinding.ItemMoviePosterBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private List<Movie> movies = new ArrayList<>();
     private final OnMovieClickListener listener;
+    private final boolean isGridLayout;
 
     public interface OnMovieClickListener {
         void onMovieClick(Movie movie);
     }
 
     public MovieAdapter(OnMovieClickListener listener) {
+        this(listener, false);
+    }
+
+    public MovieAdapter(OnMovieClickListener listener, boolean isGridLayout) {
         this.listener = listener;
+        this.isGridLayout = isGridLayout;
     }
 
     public void setMovies(List<Movie> movies) {
@@ -35,12 +42,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemMoviePosterBinding binding = ItemMoviePosterBinding.inflate(
-                LayoutInflater.from(parent.getContext()),
-                parent,
-                false
-        );
-        return new MovieViewHolder(binding);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_poster, parent, false);
+        
+        if (isGridLayout) {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            view.setLayoutParams(lp);
+        }
+        
+        return new MovieViewHolder(view);
     }
 
     @Override
@@ -55,18 +65,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     static class MovieViewHolder extends RecyclerView.ViewHolder {
-        private final ItemMoviePosterBinding binding;
+        private final ImageView ivPoster;
 
-        public MovieViewHolder(ItemMoviePosterBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        public MovieViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ivPoster = itemView.findViewById(R.id.ivPoster);
         }
 
         public void bind(Movie movie, OnMovieClickListener listener) {
             Glide.with(itemView.getContext())
                     .load(movie.getFullPosterPath())
-                    .placeholder(R.drawable.profile_avatar_background) // Placeholder
-                    .into(binding.ivPoster);
+                    .placeholder(R.drawable.profile_avatar_background)
+                    .into(ivPoster);
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) {

@@ -17,8 +17,8 @@
         android:title="Downloads" />
 
     <item
-        android:id="@+id/nav_more"
-        android:icon="@drawable/ic_menu"
-        android:title="More" />
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="My Notflix" />
 
 </menu>

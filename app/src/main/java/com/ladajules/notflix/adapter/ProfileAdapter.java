@@ -111,6 +111,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     case "yellow":
                         avatarRes = R.drawable.avatar_yellow;
                         break;
+                    case "blue":
+                        avatarRes = R.drawable.avatar_blue;
+                        break;
                     case "default":
                     default:
                         avatarRes = R.drawable.avatar_default;

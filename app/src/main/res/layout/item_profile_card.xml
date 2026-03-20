@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
     android:padding="12dp"
@@ -11,23 +11,31 @@
     android:focusable="true"
     android:background="?attr/selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/ivProfileAvatar"
+    <androidx.cardview.widget.CardView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:scaleType="centerCrop"
-        android:background="@drawable/profile_avatar_background"
-        android:contentDescription="Profile avatar"
-        tools:src="@mipmap/ic_launcher" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/ivProfileAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar_default" />
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tvProfileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         style="@style/NetflixText"
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:textSize="19sp"
         android:maxLines="1"
         android:ellipsize="end"
         tools:text="Profile 1" />

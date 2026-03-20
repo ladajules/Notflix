@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -54,25 +55,53 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvHeaderTitle">
 
-            <include
-                android:id="@+id/profileAvatar"
-                layout="@layout/item_profile_card"
+            <androidx.cardview.widget.CardView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@android:color/transparent">
+
+                <ImageView
+                    android:id="@+id/ivProfileAvatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/avatar_default" />
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleX="0.75"
-                android:scaleY="0.75" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="-16dp"
-                android:src="@drawable/ic_arrow_drop_down"
-                app:tint="#FFFFFF" />
+                <TextView
+                    android:id="@+id/tvProfileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile Name"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_drop_down"
+                    android:background="@android:color/transparent"
+                    app:tint="#FFFFFF" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -137,13 +166,16 @@
                         tools:listitem="@layout/item_movie_poster" />
 
                     <LinearLayout
+                        android:id="@+id/btnSeeDownloads"
                         android:layout_width="140dp"
                         android:layout_height="190dp"
                         android:layout_marginStart="8dp"
                         android:background="#000000"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:layout_width="36dp"
@@ -226,4 +258,5 @@
             app:layout_constraintTop_toBottomOf="@id/tvMyList" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>

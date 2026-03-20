@@ -342,7 +342,7 @@
 
             </FrameLayout>
 
-            <!-- Profile icon (TODO: open profile switcher) -->
+            <!-- Profile icon -->
             <ImageView
                 android:id="@+id/ivProfileIcon"
                 android:layout_width="34dp"

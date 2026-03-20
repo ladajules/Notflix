@@ -18,6 +18,7 @@ import com.ladajules.notflix.adapter.MovieAdapter;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.ProfileRepository;
 import com.ladajules.notflix.databinding.ActivityMainBinding;
+import com.ladajules.notflix.ui.profile.ProfileActivity;
 import com.ladajules.notflix.ui.profile.ProfileSelectionActivity;
 import com.ladajules.notflix.ui.search.SearchActivity;
 import com.ladajules.notflix.utils.PreferenceManager;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class)));
 
         binding.ivProfileIcon.setOnClickListener(v -> 
-                startActivity(new Intent(MainActivity.this, ProfileSelectionActivity.class)));
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class)));
 
         binding.bottomNavBar.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -113,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.nav_search) {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                return false;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 return false;
             }
             return true;
@@ -140,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 case "green": avatarRes = R.drawable.avatar_green; break;
                 case "orange": avatarRes = R.drawable.avatar_orange; break;
                 case "yellow": avatarRes = R.drawable.avatar_yellow; break;
+                case "blue": avatarRes = R.drawable.avatar_blue; break;
                 default: avatarRes = R.drawable.avatar_default; break;
             }
         }

@@ -89,7 +89,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_check"
-                                android:tint="#FFFFFF"
+                                app:tint="#FFFFFF"
                                 android:contentDescription="My List" />
 
                             <TextView
@@ -117,7 +117,7 @@
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:src="@drawable/ic_play"
-                                android:tint="#000000"
+                                app:tint="#000000"
                                 android:contentDescription="Play icon" />
 
                             <TextView
@@ -145,7 +145,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_info"
-                                android:tint="#FFFFFF"
+                                app:tint="#FFFFFF"
                                 android:contentDescription="Info" />
 
                             <TextView
@@ -328,7 +328,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="12dp"
                     android:src="@drawable/ic_search"
-                    android:tint="#AAAAAA"
+                    app:tint="#AAAAAA"
                     android:contentDescription="Search icon" />
 
                 <TextView
@@ -420,7 +420,7 @@
                     android:layout_height="16dp"
                     android:layout_marginStart="2dp"
                     android:src="@drawable/ic_arrow_drop_down"
-                    android:tint="#FFFFFF"
+                    app:tint="#FFFFFF"
                     android:contentDescription="Dropdown" />
 
             </LinearLayout>

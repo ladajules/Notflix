@@ -59,6 +59,8 @@
         <activity android:name=".ui.profile.ProfileActivity" />
         <activity android:name=".ui.download.DownloadsActivity" />
         <activity android:name=".ui.details.DetailsActivity" />
+        <activity android:name=".ui.profile.AddProfileActivity" />
+        <activity android:name=".ui.profile.SettingsActivity" />
 
     </application>
 

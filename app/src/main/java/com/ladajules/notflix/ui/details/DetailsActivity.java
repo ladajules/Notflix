@@ -17,7 +17,7 @@ import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.DownloadRepository;
 import com.ladajules.notflix.data.repository.UserListRepository;
 import com.ladajules.notflix.databinding.ActivityDetailsBinding;
-import com.ladajules.notflix.ui.main.MovieViewModel;
+import com.ladajules.notflix.data.model.MovieViewModel;
 import com.ladajules.notflix.utils.PreferenceManager;
 
 import java.util.ArrayList;

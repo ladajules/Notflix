@@ -22,8 +22,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<Profile> profiles = new ArrayList<>();
     private boolean canAddMore = true;
+    private boolean isEditMode = false;
+    
     private final OnProfileClickListener onProfileClickListener;
     private final OnAddProfileClickListener onAddProfileClickListener;
+    private final OnEditProfileClickListener onEditProfileClickListener;
 
     public interface OnProfileClickListener {
         void onProfileClick(Profile profile);
@@ -33,9 +36,21 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onAddProfileClick();
     }
 
-    public ProfileAdapter(OnProfileClickListener profileListener, OnAddProfileClickListener addListener) {
+    public interface OnEditProfileClickListener {
+        void onEditProfileClick(Profile profile);
+    }
+
+    public ProfileAdapter(OnProfileClickListener profileListener, 
+                          OnAddProfileClickListener addListener,
+                          OnEditProfileClickListener editListener) {
         this.onProfileClickListener = profileListener;
         this.onAddProfileClickListener = addListener;
+        this.onEditProfileClickListener = editListener;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.isEditMode = editMode;
+        notifyDataSetChanged();
     }
 
     public void submitList(List<Profile> newProfiles, int maxProfiles) {
@@ -72,8 +87,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ProfileViewHolder) {
             Profile profile = profiles.get(position);
-            ((ProfileViewHolder) holder).bind(profile);
-            holder.itemView.setOnClickListener(v -> onProfileClickListener.onProfileClick(profile));
+            ProfileViewHolder profileHolder = (ProfileViewHolder) holder;
+            profileHolder.bind(profile, isEditMode);
+            
+            holder.itemView.setOnClickListener(v -> {
+                if (isEditMode) {
+                    onEditProfileClickListener.onEditProfileClick(profile);
+                } else {
+                    onProfileClickListener.onProfileClick(profile);
+                }
+            });
         } else if (holder instanceof AddProfileViewHolder) {
             holder.itemView.setOnClickListener(v -> onAddProfileClickListener.onAddProfileClick());
         }
@@ -82,14 +105,18 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     static class ProfileViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivAvatar;
         private final TextView tvName;
+        private final View editOverlay;
+        private final ImageView ivEditIcon;
 
         public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
             ivAvatar = itemView.findViewById(R.id.ivProfileAvatar);
             tvName = itemView.findViewById(R.id.tvProfileName);
+            editOverlay = itemView.findViewById(R.id.editOverlay);
+            ivEditIcon = itemView.findViewById(R.id.ivEditIcon);
         }
 
-        public void bind(Profile profile) {
+        public void bind(Profile profile, boolean isEditMode) {
             tvName.setText(profile.getName());
             
             int avatarRes;
@@ -99,28 +126,19 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 avatarRes = R.drawable.avatar_default;
             } else {
                 switch (avatarUrl.toLowerCase()) {
-                    case "pink":
-                        avatarRes = R.drawable.avatar_pink;
-                        break;
-                    case "green":
-                        avatarRes = R.drawable.avatar_green;
-                        break;
-                    case "orange":
-                        avatarRes = R.drawable.avatar_orange;
-                        break;
-                    case "yellow":
-                        avatarRes = R.drawable.avatar_yellow;
-                        break;
-                    case "blue":
-                        avatarRes = R.drawable.avatar_blue;
-                        break;
-                    case "default":
-                    default:
-                        avatarRes = R.drawable.avatar_default;
-                        break;
+                    case "pink": avatarRes = R.drawable.avatar_pink; break;
+                    case "green": avatarRes = R.drawable.avatar_green; break;
+                    case "orange": avatarRes = R.drawable.avatar_orange; break;
+                    case "yellow": avatarRes = R.drawable.avatar_yellow; break;
+                    case "blue": avatarRes = R.drawable.avatar_blue; break;
+                    default: avatarRes = R.drawable.avatar_default; break;
                 }
             }
             ivAvatar.setImageResource(avatarRes);
+            
+            int visibility = isEditMode ? View.VISIBLE : View.GONE;
+            editOverlay.setVisibility(visibility);
+            ivEditIcon.setVisibility(visibility);
         }
     }
 

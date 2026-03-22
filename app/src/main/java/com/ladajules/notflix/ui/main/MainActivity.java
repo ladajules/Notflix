@@ -2,8 +2,6 @@ package com.ladajules.notflix.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -15,13 +13,13 @@ import com.bumptech.glide.Glide;
 import com.ladajules.notflix.R;
 import com.ladajules.notflix.adapter.MovieAdapter;
 import com.ladajules.notflix.data.model.Movie;
+import com.ladajules.notflix.data.model.MovieViewModel;
 import com.ladajules.notflix.data.repository.ProfileRepository;
 import com.ladajules.notflix.data.repository.UserListRepository;
 import com.ladajules.notflix.databinding.ActivityMainBinding;
 import com.ladajules.notflix.ui.details.DetailsActivity;
 import com.ladajules.notflix.ui.download.DownloadsActivity;
 import com.ladajules.notflix.ui.profile.ProfileActivity;
-import com.ladajules.notflix.ui.profile.ProfileSelectionActivity;
 import com.ladajules.notflix.ui.search.SearchActivity;
 import com.ladajules.notflix.utils.PreferenceManager;
 

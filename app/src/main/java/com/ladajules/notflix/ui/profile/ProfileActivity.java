@@ -104,6 +104,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        binding.ivProfileMenu.setOnClickListener(v ->
+                startActivity(new Intent(ProfileActivity.this, SettingsActivity.class)));
     }
 
     private void loadUserProfile() {

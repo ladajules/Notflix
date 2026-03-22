@@ -1,10 +1,8 @@
-package com.ladajules.notflix.ui.main;
+package com.ladajules.notflix.data.model;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.ladajules.notflix.data.model.CreditsResponse;
-import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.TMDBRepository;
 import com.ladajules.notflix.utils.Constants;
 

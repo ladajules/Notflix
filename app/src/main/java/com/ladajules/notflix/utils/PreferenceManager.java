@@ -11,7 +11,6 @@ public class PreferenceManager {
         this.sharedPreferences = context.getSharedPreferences(Constants.PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    // User Authentication
     public boolean isLoggedIn() {
         return sharedPreferences.getBoolean(Constants.KEY_IS_LOGGED_IN, false);
     }
@@ -54,16 +53,16 @@ public class PreferenceManager {
         sharedPreferences.edit().putString(Constants.KEY_SELECTED_PROFILE_ID, value).apply();
     }
 
-    // Clear all preferences on logout
     public void clearAll() {
         sharedPreferences.edit().clear().apply();
     }
 
-    // Clear user session but keep onboarding status
+    // clear user session but keep onboarding status
     public void clearSession() {
         setLoggedIn(false);
         setUserId(null);
         setSelectedProfileId(null);
         setRememberMe(false);
     }
+
 }

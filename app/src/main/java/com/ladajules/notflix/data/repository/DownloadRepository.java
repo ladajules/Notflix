@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.WriteBatch;
 import com.ladajules.notflix.data.model.Download;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.remote.FirebaseManager;
@@ -40,11 +40,8 @@ public class DownloadRepository {
     }
 
     public void getDownloadsForProfile(String profileId, DownloadCallback<List<Download>> callback) {
-        Log.d(TAG, "Fetching downloads for profile: " + profileId);
-
         firestore.collection(Constants.DOWNLOADS_COLLECTION)
                 .whereEqualTo("profileId", profileId)
-                //.orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -71,6 +68,29 @@ public class DownloadRepository {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         callback.onResult(true, null, null);
+                    } else {
+                        callback.onResult(false, null, task.getException());
+                    }
+                });
+    }
+
+    public void deleteAllDownloads(String profileId, DownloadCallback<Void> callback) {
+        firestore.collection(Constants.DOWNLOADS_COLLECTION)
+                .whereEqualTo("profileId", profileId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        WriteBatch batch = firestore.batch();
+                        for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                            batch.delete(doc.getReference());
+                        }
+                        batch.commit().addOnCompleteListener(commitTask -> {
+                            if (commitTask.isSuccessful()) {
+                                callback.onResult(true, null, null);
+                            } else {
+                                callback.onResult(false, null, commitTask.getException());
+                            }
+                        });
                     } else {
                         callback.onResult(false, null, task.getException());
                     }

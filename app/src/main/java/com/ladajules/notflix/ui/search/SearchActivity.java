@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ladajules.notflix.R;
 import com.ladajules.notflix.adapter.MovieAdapter;
 import com.ladajules.notflix.data.model.Movie;
-import com.ladajules.notflix.ui.main.MovieViewModel;
+import com.ladajules.notflix.data.model.MovieViewModel;
 
 public class SearchActivity extends AppCompatActivity {
 

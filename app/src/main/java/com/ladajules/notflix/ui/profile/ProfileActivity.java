@@ -71,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
         }, true);
 
         binding.rvMyList.setLayoutManager(new GridLayoutManager(this, 3));
-        binding.rvMyList.setNestedScrollingEnabled(false); // Smooth scrolling inside NestedScrollView
+        binding.rvMyList.setNestedScrollingEnabled(false);
         binding.rvMyList.setAdapter(myListAdapter);
     }
 
@@ -139,9 +139,14 @@ public class ProfileActivity extends AppCompatActivity {
         if (profileId != null) {
             userListRepository.getMyList(profileId, (success, movies, e) -> {
                 if (success && movies != null) {
-                    myListAdapter.setMovies(movies);
-                    binding.tvMyList.setVisibility(movies.isEmpty() ? View.GONE : View.VISIBLE);
-                    binding.rvMyList.setVisibility(movies.isEmpty() ? View.GONE : View.VISIBLE);
+                    if (movies.isEmpty()) {
+                        binding.rvMyList.setVisibility(View.GONE);
+                        binding.tvEmptyMyList.setVisibility(View.VISIBLE);
+                    } else {
+                        myListAdapter.setMovies(movies);
+                        binding.rvMyList.setVisibility(View.VISIBLE);
+                        binding.tvEmptyMyList.setVisibility(View.GONE);
+                    }
                 }
             });
         }

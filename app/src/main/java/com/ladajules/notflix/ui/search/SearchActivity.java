@@ -1,5 +1,6 @@
 package com.ladajules.notflix.ui.search;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,6 +21,7 @@ import com.ladajules.notflix.R;
 import com.ladajules.notflix.adapter.MovieAdapter;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.model.MovieViewModel;
+import com.ladajules.notflix.ui.details.DetailsActivity;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -117,7 +119,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void onMovieClick(Movie movie) {
-        // TODO: Implement movie details screen
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(DetailsActivity.EXTRA_MOVIE, movie);
+        startActivity(intent);
     }
 
     @Override

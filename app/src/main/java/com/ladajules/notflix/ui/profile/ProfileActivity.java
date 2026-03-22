@@ -2,23 +2,34 @@ package com.ladajules.notflix.ui.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ladajules.notflix.R;
+import com.ladajules.notflix.adapter.MovieAdapter;
+import com.ladajules.notflix.data.model.Download;
+import com.ladajules.notflix.data.model.Movie;
+import com.ladajules.notflix.data.repository.DownloadRepository;
 import com.ladajules.notflix.data.repository.ProfileRepository;
 import com.ladajules.notflix.databinding.ActivityProfileBinding;
+import com.ladajules.notflix.ui.details.DetailsActivity;
 import com.ladajules.notflix.ui.download.DownloadsActivity;
 import com.ladajules.notflix.ui.main.MainActivity;
 import com.ladajules.notflix.ui.search.SearchActivity;
 import com.ladajules.notflix.utils.PreferenceManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private ActivityProfileBinding binding;
     private PreferenceManager preferenceManager;
     private ProfileRepository profileRepository;
+    private DownloadRepository downloadRepository;
+    private MovieAdapter downloadAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,29 +39,36 @@ public class ProfileActivity extends AppCompatActivity {
 
         preferenceManager = new PreferenceManager(this);
         profileRepository = new ProfileRepository();
+        downloadRepository = new DownloadRepository();
 
+        setupRecyclerViews();
         setupListeners();
         loadUserProfile();
+        loadDownloads();
+    }
+
+    private void setupRecyclerViews() {
+        // same logic as MainActivity
+        downloadAdapter = new MovieAdapter(movie -> {
+            Intent intent = new Intent(ProfileActivity.this, DetailsActivity.class);
+            intent.putExtra(DetailsActivity.EXTRA_MOVIE, movie);
+            startActivity(intent);
+        });
+        binding.rvDownloads.setAdapter(downloadAdapter);
     }
 
     private void setupListeners() {
         binding.ivProfileSearch.setOnClickListener(v -> 
                 startActivity(new Intent(ProfileActivity.this, SearchActivity.class)));
 
-        binding.ivProfileMenu.setOnClickListener(v -> {
-            // TODO: Open settings or menu
-        });
+        binding.profileContainer.setOnClickListener(v -> 
+                startActivity(new Intent(ProfileActivity.this, ProfileSelectionActivity.class)));
 
-        binding.profileContainer.setOnClickListener(v -> {
-            // Switch profile
-            startActivity(new Intent(ProfileActivity.this, ProfileSelectionActivity.class));
-        });
+        binding.btnSeeDownloads.setOnClickListener(v -> 
+                startActivity(new Intent(ProfileActivity.this, MainActivity.class)));
 
-        binding.btnSeeDownloads.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-        });
+        binding.cvDownloads.setOnClickListener(v -> 
+                startActivity(new Intent(ProfileActivity.this, DownloadsActivity.class)));
 
         binding.bottomNavBar.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -82,6 +100,46 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void loadDownloads() {
+        String profileId = preferenceManager.getSelectedProfileId();
+        if (profileId != null) {
+            downloadRepository.getDownloadsForProfile(profileId, (success, downloads, e) -> {
+                if (success && downloads != null && !downloads.isEmpty()) {
+                    binding.rvDownloads.setVisibility(View.VISIBLE);
+                    binding.btnSeeDownloads.setVisibility(View.GONE);
+                    updateDownloadsPreview(downloads);
+                } else {
+                    binding.rvDownloads.setVisibility(View.GONE);
+                    binding.btnSeeDownloads.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+    }
+
+    private void updateDownloadsPreview(List<Download> downloads) {
+        List<Movie> moviePreviews = new ArrayList<>();
+        for (Download d : downloads) {
+            Movie m = new Movie();
+            m.setId(d.getMovieId());
+            m.setTitle(d.getTitle());
+
+            String path = d.getPosterPath();
+            if (path == null || path.isEmpty()) {
+                path = d.getBackdropPath();
+            }
+            
+            if (path != null && !path.startsWith("/")) {
+                path = "/" + path;
+            }
+            
+            m.setPosterPath(path);
+            m.setBackdropPath(d.getBackdropPath());
+            
+            moviePreviews.add(m);
+        }
+        downloadAdapter.setMovies(moviePreviews);
+    }
+
     private void setProfileAvatar(ImageView imageView, String avatarUrl) {
         int avatarRes;
         if (avatarUrl == null) {
@@ -97,5 +155,14 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
         imageView.setImageResource(avatarRes);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (binding.bottomNavBar != null) {
+            binding.bottomNavBar.setSelectedItemId(R.id.nav_profile);
+        }
+        loadDownloads();
     }
 }

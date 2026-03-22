@@ -9,6 +9,7 @@ public class Download {
     private String profileId;
     private int movieId;
     private String title;
+    private String posterPath;
     private String backdropPath;
     private String status;
     private String size;
@@ -20,6 +21,7 @@ public class Download {
         this.profileId = profileId;
         this.movieId = movie.getId();
         this.title = movie.getTitle();
+        this.posterPath = movie.getPosterPath();
         this.backdropPath = movie.getBackdropPath();
         this.status = "Downloaded";
         int randomSize = new Random().nextInt((1500 - 500) + 1) + 500;
@@ -40,6 +42,9 @@ public class Download {
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
+    public String getPosterPath() { return posterPath; }
+    public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
+
     public String getBackdropPath() { return backdropPath; }
     public void setBackdropPath(String backdropPath) { this.backdropPath = backdropPath; }
 
@@ -52,6 +57,10 @@ public class Download {
     public long getTimestamp() { return timestamp; }
     public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
 
+    public String getFullPosterPath() {
+        return "https://image.tmdb.org/t/p/w500" + posterPath;
+    }
+
     public String getFullBackdropPath() {
         return "https://image.tmdb.org/t/p/w300" + backdropPath;
     }
@@ -61,6 +70,7 @@ public class Download {
         map.put("profileId", profileId);
         map.put("movieId", movieId);
         map.put("title", title);
+        map.put("posterPath", posterPath);
         map.put("backdropPath", backdropPath);
         map.put("status", status);
         map.put("size", size);
@@ -81,6 +91,7 @@ public class Download {
         }
         
         download.setTitle((String) map.get("title"));
+        download.setPosterPath((String) map.get("posterPath"));
         download.setBackdropPath((String) map.get("backdropPath"));
         download.setStatus((String) map.get("status"));
         download.setSize((String) map.get("size"));

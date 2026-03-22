@@ -2,9 +2,12 @@ package com.ladajules.notflix.ui.landing;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.MenuItem;
+import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
@@ -12,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.ladajules.notflix.R;
 import com.ladajules.notflix.adapter.LandingPagerAdapter;
 import com.ladajules.notflix.databinding.ActivityLandingBinding;
 import com.ladajules.notflix.ui.auth.SignInActivity;
@@ -64,9 +68,7 @@ public class LandingActivity extends AppCompatActivity {
         LandingPagerAdapter adapter = new LandingPagerAdapter();
         binding.viewPager.setAdapter(adapter);
 
-        new TabLayoutMediator(binding.tabLayoutLanding, binding.viewPager, (tab, position) -> {
-            // No text needed for dots
-        }).attach();
+        new TabLayoutMediator(binding.tabLayoutLanding, binding.viewPager, (tab, position) -> { }).attach();
     }
 
     private void setupClickListeners() {
@@ -77,6 +79,32 @@ public class LandingActivity extends AppCompatActivity {
         binding.btnCreateAccount.setOnClickListener(v -> {
             startActivity(new Intent(this, SignupActivity.class));
         });
+
+        binding.ivMenu.setOnClickListener(v -> showPopupMenu());
+    }
+
+    private void showPopupMenu() {
+        PopupMenu popup = new PopupMenu(this, binding.ivMenu);
+        popup.getMenuInflater().inflate(R.menu.landing_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.menu_help) {
+                openUrl("https://help.netflix.com");
+                return true;
+            } else if (id == R.id.menu_privacy) {
+                openUrl("https://help.netflix.com/legal/privacy");
+                return true;
+            }
+            return false;
+        });
+
+        popup.show();
+    }
+
+    private void openUrl(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 
     private void startAutoScroll() {

@@ -27,6 +27,19 @@
 
         <!-- Other attributes -->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        
+        <!-- Custom Popup Style -->
+        <item name="popupMenuStyle">@style/NetflixPopupMenu</item>
+        <item name="android:popupMenuStyle">@style/NetflixPopupMenu</item>
+    </style>
+
+    <!-- Netflix Custom Popup Menu Style -->
+    <style name="NetflixPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/text_light_gray</item>
+    </style>
+
+    <style name="NetflixPopupMenu.TextAppearance" parent="TextAppearance.AppCompat.Widget.PopupMenu.Large">
+        <item name="android:textColor">@color/netflix_black</item>
     </style>
 
     <!-- Splash Screen Theme -->
@@ -97,11 +110,9 @@
         <item name="android:textColor">@color/text_dark_gray</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <!-- Other themes and styles might be here -->
 
     <style name="NetflixText">
-        <!-- Example attributes. Modify them to fit your design. -->
-        <item name="android:textColor">#E50914</item> <!-- Netflix Red -->
+        <item name="android:textColor">#E50914</item>
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>

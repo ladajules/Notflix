@@ -18,6 +18,7 @@ import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.ProfileRepository;
 import com.ladajules.notflix.databinding.ActivityMainBinding;
 import com.ladajules.notflix.ui.details.DetailsActivity;
+import com.ladajules.notflix.ui.download.DownloadsActivity;
 import com.ladajules.notflix.ui.profile.ProfileActivity;
 import com.ladajules.notflix.ui.profile.ProfileSelectionActivity;
 import com.ladajules.notflix.ui.search.SearchActivity;
@@ -117,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.nav_search) {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                return false;
+            } else if (itemId == R.id.nav_downloads) {
+                startActivity(new Intent(MainActivity.this, DownloadsActivity.class));
+                return false;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 return false;
             }
             return true;

@@ -2,6 +2,7 @@ package com.ladajules.notflix.data.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Download {
     private String id;
@@ -21,7 +22,9 @@ public class Download {
         this.title = movie.getTitle();
         this.backdropPath = movie.getBackdropPath();
         this.status = "Downloaded";
-        this.size = "0 MB";
+        int randomSize = new Random().nextInt((1500 - 500) + 1) + 500;
+        this.size = randomSize + " MB";
+        
         this.timestamp = System.currentTimeMillis();
     }
 
@@ -69,12 +72,24 @@ public class Download {
         Download download = new Download();
         download.setId(id);
         download.setProfileId((String) map.get("profileId"));
-        download.setMovieId(((Long) map.get("movieId")).intValue());
+        
+        Object movieIdObj = map.get("movieId");
+        if (movieIdObj instanceof Long) {
+            download.setMovieId(((Long) movieIdObj).intValue());
+        } else if (movieIdObj instanceof Integer) {
+            download.setMovieId((Integer) movieIdObj);
+        }
+        
         download.setTitle((String) map.get("title"));
         download.setBackdropPath((String) map.get("backdropPath"));
         download.setStatus((String) map.get("status"));
         download.setSize((String) map.get("size"));
-        download.setTimestamp((Long) map.get("timestamp"));
+        
+        Object timestampObj = map.get("timestamp");
+        if (timestampObj instanceof Long) {
+            download.setTimestamp((Long) timestampObj);
+        }
+        
         return download;
     }
 }

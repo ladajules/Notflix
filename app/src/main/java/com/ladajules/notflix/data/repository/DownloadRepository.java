@@ -40,9 +40,11 @@ public class DownloadRepository {
     }
 
     public void getDownloadsForProfile(String profileId, DownloadCallback<List<Download>> callback) {
+        Log.d(TAG, "Fetching downloads for profile: " + profileId);
+
         firestore.collection(Constants.DOWNLOADS_COLLECTION)
                 .whereEqualTo("profileId", profileId)
-                .orderBy("timestamp", Query.Direction.DESCENDING)
+                //.orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -53,6 +55,7 @@ public class DownloadRepository {
                                 downloads.add(Download.fromMap(doc.getId(), data));
                             }
                         }
+                        Log.d(TAG, "Successfully retrieved " + downloads.size() + " downloads");
                         callback.onResult(true, downloads, null);
                     } else {
                         Log.e(TAG, "Error getting downloads", task.getException());

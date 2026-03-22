@@ -1,6 +1,8 @@
 package com.ladajules.notflix.ui.details;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.ladajules.notflix.R;
 import com.ladajules.notflix.adapter.MovieAdapter;
-import com.ladajules.notflix.data.model.Download;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.DownloadRepository;
 import com.ladajules.notflix.databinding.ActivityDetailsBinding;
@@ -53,10 +54,6 @@ public class DetailsActivity extends AppCompatActivity {
         binding.tvMovieTitle.setText(movie.getTitle());
         binding.tvSynopsis.setText(movie.getOverview());
         
-        // Mocking some data that isn't in the Movie model yet
-        String releaseYear = movie.getReleaseDate() != null && movie.getReleaseDate().length() >= 4 
-                ? movie.getReleaseDate().substring(0, 4) : "N/A";
-        
         Glide.with(this)
                 .load(movie.getFullBackdropPath())
                 .placeholder(R.drawable.profile_avatar_background)
@@ -65,8 +62,10 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void setupMoreLikeThis() {
         moreLikeThisAdapter = new MovieAdapter(clickedMovie -> {
-            // Re-open DetailsActivity with the new movie
-            // You might want to use intent flags to manage the backstack
+            Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra(EXTRA_MOVIE, clickedMovie);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }, true);
 
         binding.rvMoreLikeThis.setLayoutManager(new GridLayoutManager(this, 3));
@@ -82,22 +81,28 @@ public class DetailsActivity extends AppCompatActivity {
     private void setupListeners() {
         binding.ivClose.setOnClickListener(v -> finish());
 
-        binding.cvPlayBtn.setOnClickListener(v -> {
-            Toast.makeText(this, "Now playing " + movie.getTitle(), Toast.LENGTH_SHORT).show();
-        });
+        View playLayout = binding.cvPlayBtn.getChildAt(0);
+        if (playLayout != null) {
+            playLayout.setOnClickListener(v -> {
+                Toast.makeText(this, "Now playing " + movie.getTitle(), Toast.LENGTH_SHORT).show();
+            });
+        }
 
-        binding.cvDownloadBtn.setOnClickListener(v -> {
-            String profileId = preferenceManager.getSelectedProfileId();
-            if (profileId != null) {
-                downloadRepository.addDownload(profileId, movie, (success, data, e) -> {
-                    if (success) {
-                        Toast.makeText(this, "Added to Downloads", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Failed to add to Downloads", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+        View downloadLayout = binding.cvDownloadBtn.getChildAt(0);
+        if (downloadLayout != null) {
+            downloadLayout.setOnClickListener(v -> {
+                String profileId = preferenceManager.getSelectedProfileId();
+                if (profileId != null) {
+                    downloadRepository.addDownload(profileId, movie, (success, data, e) -> {
+                        if (success) {
+                            Toast.makeText(this, "Added to Downloads", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Failed to add to Downloads", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }
 
         binding.llAddToList.setOnClickListener(v -> {
             // TODO: Implement My List logic

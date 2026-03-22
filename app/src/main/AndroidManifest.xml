@@ -58,6 +58,7 @@
 
         <activity android:name=".ui.profile.ProfileActivity" />
         <activity android:name=".ui.download.DownloadsActivity" />
+        <activity android:name=".ui.details.DetailsActivity" />
 
     </application>
 

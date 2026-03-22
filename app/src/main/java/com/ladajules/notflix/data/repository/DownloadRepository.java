@@ -8,6 +8,7 @@ import com.google.firebase.firestore.Query;
 import com.ladajules.notflix.data.model.Download;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.remote.FirebaseManager;
+import com.ladajules.notflix.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,6 @@ import java.util.Map;
 public class DownloadRepository {
     private final FirebaseFirestore firestore;
     private static final String TAG = "DownloadRepository";
-    private static final String DOWNLOADS_COLLECTION = "downloads";
 
     public DownloadRepository() {
         this.firestore = FirebaseManager.getFirestore();
@@ -28,7 +28,7 @@ public class DownloadRepository {
 
     public void addDownload(String profileId, Movie movie, DownloadCallback<String> callback) {
         Download download = new Download(profileId, movie);
-        firestore.collection(DOWNLOADS_COLLECTION)
+        firestore.collection(Constants.DOWNLOADS_COLLECTION)
                 .add(download.toMap())
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -40,7 +40,7 @@ public class DownloadRepository {
     }
 
     public void getDownloadsForProfile(String profileId, DownloadCallback<List<Download>> callback) {
-        firestore.collection(DOWNLOADS_COLLECTION)
+        firestore.collection(Constants.DOWNLOADS_COLLECTION)
                 .whereEqualTo("profileId", profileId)
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
@@ -62,7 +62,7 @@ public class DownloadRepository {
     }
 
     public void deleteDownload(String downloadId, DownloadCallback<Void> callback) {
-        firestore.collection(DOWNLOADS_COLLECTION)
+        firestore.collection(Constants.DOWNLOADS_COLLECTION)
                 .document(downloadId)
                 .delete()
                 .addOnCompleteListener(task -> {

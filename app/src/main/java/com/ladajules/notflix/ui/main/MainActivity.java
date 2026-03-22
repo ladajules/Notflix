@@ -5,26 +5,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ladajules.notflix.R;
 import com.ladajules.notflix.adapter.MovieAdapter;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.ProfileRepository;
 import com.ladajules.notflix.databinding.ActivityMainBinding;
-import com.ladajules.notflix.ui.download.DownloadsActivity;
+import com.ladajules.notflix.ui.details.DetailsActivity;
 import com.ladajules.notflix.ui.profile.ProfileActivity;
 import com.ladajules.notflix.ui.profile.ProfileSelectionActivity;
 import com.ladajules.notflix.ui.search.SearchActivity;
 import com.ladajules.notflix.utils.PreferenceManager;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        // Any specific view initialization not handled by binding
     }
 
     private void setupAdapters() {
@@ -70,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         binding.rvTrending.setAdapter(trendingAdapter);
         binding.rvTop10.setAdapter(topRatedAdapter);
         binding.rvNewReleases.setAdapter(newReleasesAdapter);
-        binding.rvBecauseYouWatched.setAdapter(popularAdapter); // Reuse for demo
+        binding.rvBecauseYouWatched.setAdapter(popularAdapter);
     }
 
     private void setupObservers() {
@@ -90,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getTopRatedMovies().observe(this, movies -> {
             if (movies != null) {
                 topRatedAdapter.setMovies(movies);
-                newReleasesAdapter.setMovies(movies); // Mocking new releases
+                newReleasesAdapter.setMovies(movies);
             }
         });
     }
@@ -100,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(movie.getFullBackdropPath())
                 .into(binding.ivHeroBanner);
+        
+        binding.btnPlay.setOnClickListener(v -> {
+            Toast.makeText(this, "Now playing " + movie.getTitle(), Toast.LENGTH_SHORT).show();
+        });
+
+        binding.btnInfo.setOnClickListener(v -> onMovieClick(movie));
     }
 
     private void setupListeners() {
@@ -115,12 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.nav_search) {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
-                return false;
-            } else if (itemId == R.id.nav_profile) {
-                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                return false;
-            } else if (itemId == R.id.nav_downloads) {
-                startActivity(new Intent(MainActivity.this, DownloadsActivity.class));
                 return false;
             }
             return true;
@@ -156,8 +152,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onMovieClick(Movie movie) {
-        // TODO: Implement movie details screen
-        Log.d("MainActivity", "Clicked: " + movie.getTitle());
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(DetailsActivity.EXTRA_MOVIE, movie);
+        startActivity(intent);
     }
 
     @Override

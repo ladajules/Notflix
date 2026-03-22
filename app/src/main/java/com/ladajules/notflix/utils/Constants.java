@@ -5,6 +5,7 @@ public class Constants {
     // Firebase collections
     public static final String USERS_COLLECTION = "users";
     public static final String PROFILES_COLLECTION = "profiles";
+    public static final String DOWNLOADS_COLLECTION = "downloads";
 
     // SharedPreferences
     public static final String PREFERENCES_NAME = "notflix_preferences";

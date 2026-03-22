@@ -360,7 +360,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/tabRow"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
@@ -368,62 +367,17 @@
             android:paddingEnd="16dp"
             android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tabTvShows"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMysteryTicket"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TV Shows"
+                android:text="Mystery Ticket"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
-                android:paddingEnd="20dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless" />
-
-            <TextView
-                android:id="@+id/tabMovies"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Movies"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:paddingEnd="20dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless" />
-
-            <LinearLayout
-                android:id="@+id/tabCategories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Categories"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/ic_arrow_drop_down"
-                    app:tint="#FFFFFF"
-                    android:contentDescription="Dropdown" />
-
-            </LinearLayout>
+                app:icon="@drawable/ic_movie"
+                app:iconTint="#FFFFFF"
+                android:textAllCaps="false" />
 
         </LinearLayout>
 

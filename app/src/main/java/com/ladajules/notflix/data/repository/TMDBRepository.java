@@ -91,6 +91,46 @@ public class TMDBRepository {
         return data;
     }
 
+    public LiveData<List<Movie>> getNowPlayingMovies(int page) {
+        MutableLiveData<List<Movie>> data = new MutableLiveData<>();
+        apiService.getNowPlayingMovies(apiKey, "en-US", page).enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    data.setValue(response.body().getResults());
+                } else {
+                    data.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
+    public LiveData<List<Movie>> getUpcomingMovies(int page) {
+        MutableLiveData<List<Movie>> data = new MutableLiveData<>();
+        apiService.getUpcomingMovies(apiKey, "en-US", page).enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    data.setValue(response.body().getResults());
+                } else {
+                    data.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
     public LiveData<List<Movie>> searchMovies(String query, int page) {
         MutableLiveData<List<Movie>> data = new MutableLiveData<>();
         apiService.searchMovies(apiKey, query, "en-US", page).enqueue(new Callback<MovieResponse>() {

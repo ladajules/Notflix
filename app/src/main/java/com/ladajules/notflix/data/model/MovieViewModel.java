@@ -13,12 +13,16 @@ public class MovieViewModel extends ViewModel {
     private final LiveData<List<Movie>> popularMovies;
     private final LiveData<List<Movie>> trendingMovies;
     private final LiveData<List<Movie>> topRatedMovies;
+    private final LiveData<List<Movie>> nowPlayingMovies;
+    private final LiveData<List<Movie>> upcomingMovies;
 
     public MovieViewModel() {
         this.repository = new TMDBRepository(Constants.TMDB_API_KEY);
         this.popularMovies = repository.getPopularMovies(1);
         this.trendingMovies = repository.getTrendingMovies();
         this.topRatedMovies = repository.getTopRatedMovies(1);
+        this.nowPlayingMovies = repository.getNowPlayingMovies(1);
+        this.upcomingMovies = repository.getUpcomingMovies(1);
     }
 
     public LiveData<List<Movie>> getPopularMovies() {
@@ -31,6 +35,14 @@ public class MovieViewModel extends ViewModel {
 
     public LiveData<List<Movie>> getTopRatedMovies() {
         return topRatedMovies;
+    }
+
+    public LiveData<List<Movie>> getNowPlayingMovies() {
+        return nowPlayingMovies;
+    }
+
+    public LiveData<List<Movie>> getUpcomingMovies() {
+        return upcomingMovies;
     }
 
     public LiveData<List<Movie>> searchMovies(String query) {

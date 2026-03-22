@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ladajules.notflix.data.model.CreditsResponse;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.model.MovieResponse;
 import com.ladajules.notflix.data.remote.RetrofitClient;
@@ -104,6 +105,26 @@ public class TMDBRepository {
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
+    public LiveData<CreditsResponse> getMovieCredits(int movieId) {
+        MutableLiveData<CreditsResponse> data = new MutableLiveData<>();
+        apiService.getMovieCredits(movieId, apiKey).enqueue(new Callback<CreditsResponse>() {
+            @Override
+            public void onResponse(Call<CreditsResponse> call, Response<CreditsResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    data.setValue(response.body());
+                } else {
+                    data.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreditsResponse> call, Throwable t) {
                 data.setValue(null);
             }
         });

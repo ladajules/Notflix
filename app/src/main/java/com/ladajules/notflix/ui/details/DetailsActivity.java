@@ -12,11 +12,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.ladajules.notflix.R;
 import com.ladajules.notflix.adapter.MovieAdapter;
+import com.ladajules.notflix.data.model.CreditsResponse;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.DownloadRepository;
 import com.ladajules.notflix.databinding.ActivityDetailsBinding;
 import com.ladajules.notflix.ui.main.MovieViewModel;
 import com.ladajules.notflix.utils.PreferenceManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -48,6 +52,7 @@ public class DetailsActivity extends AppCompatActivity {
         setupViews();
         setupMoreLikeThis();
         setupListeners();
+        fetchCredits();
     }
 
     private void setupViews() {
@@ -58,6 +63,40 @@ public class DetailsActivity extends AppCompatActivity {
                 .load(movie.getFullBackdropPath())
                 .placeholder(R.drawable.profile_avatar_background)
                 .into(binding.ivPoster);
+    }
+
+    private void fetchCredits() {
+        viewModel.getMovieCredits(movie.getId()).observe(this, credits -> {
+            if (credits != null) {
+                updateCreditsUI(credits);
+            }
+        });
+    }
+
+    private void updateCreditsUI(CreditsResponse credits) {
+        List<String> castNames = new ArrayList<>();
+        if (credits.getCast() != null) {
+            int count = Math.min(credits.getCast().size(), 3);
+            for (int i = 0; i < count; i++) {
+                castNames.add(credits.getCast().get(i).getName());
+            }
+        }
+        String castText = "Cast: " + String.join(", ", castNames);
+        if (credits.getCast() != null && credits.getCast().size() > 3) {
+            castText += " ... more";
+        }
+
+        String directorName = "N/A";
+        if (credits.getCrew() != null) {
+            for (CreditsResponse.Crew crewMember : credits.getCrew()) {
+                if ("Director".equals(crewMember.getJob())) {
+                    directorName = crewMember.getName();
+                    break;
+                }
+            }
+        }
+
+        binding.tvCastInfo.setText(castText + "\nDirector: " + directorName);
     }
 
     private void setupMoreLikeThis() {
@@ -106,7 +145,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         binding.llAddToList.setOnClickListener(v -> {
             // TODO: Implement My List logic
-            Toast.makeText(this, "Added to My List", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Added to your list", Toast.LENGTH_SHORT).show();
         });
     }
 }

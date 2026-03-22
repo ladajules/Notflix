@@ -3,6 +3,7 @@ package com.ladajules.notflix.ui.main;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.ladajules.notflix.data.model.CreditsResponse;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.TMDBRepository;
 import com.ladajules.notflix.utils.Constants;
@@ -36,5 +37,9 @@ public class MovieViewModel extends ViewModel {
 
     public LiveData<List<Movie>> searchMovies(String query) {
         return repository.searchMovies(query, 1);
+    }
+
+    public LiveData<CreditsResponse> getMovieCredits(int movieId) {
+        return repository.getMovieCredits(movieId);
     }
 }

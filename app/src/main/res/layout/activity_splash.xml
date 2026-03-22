@@ -7,7 +7,6 @@
     android:background="@color/netflix_black"
     android:fitsSystemWindows="false">
 
-    <!-- Netflix Logo -->
     <ImageView
         android:id="@+id/ivNetflixLogo"
         android:layout_width="120dp"
@@ -19,7 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Loading Indicator (Optional) -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

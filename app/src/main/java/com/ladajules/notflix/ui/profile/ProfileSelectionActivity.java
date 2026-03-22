@@ -106,7 +106,6 @@ public class ProfileSelectionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadProfiles();
-        // Reset edit mode when returning
         isEditMode = false;
         binding.tvEdit.setText("Edit");
         profileAdapter.setEditMode(false);

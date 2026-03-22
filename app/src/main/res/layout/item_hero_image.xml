@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/netflix_black">
 
-    <!-- Movie Posters Grid -->
     <ImageView
         android:id="@+id/ivHeroImage"
         android:layout_width="match_parent"
@@ -16,7 +15,6 @@
         android:contentDescription="Hero Image" />
 
 
-    <!-- Title Text Overlay -->
     <TextView
         android:id="@+id/tvHeroTitle"
         android:layout_width="match_parent"

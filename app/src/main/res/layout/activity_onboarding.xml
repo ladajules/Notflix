@@ -7,7 +7,6 @@
     android:background="@color/netflix_black"
     android:fitsSystemWindows="false">
 
-    <!-- ViewPager2 for Onboarding Slides -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="0dp"
@@ -17,7 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Dots Indicator -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayoutOnboarding"
         android:layout_width="wrap_content"
@@ -35,7 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Action Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnNext"
         style="@style/NetflixButton.Primary"

@@ -22,7 +22,6 @@ public class HeroImageAdapter extends RecyclerView.Adapter<HeroImageAdapter.Hero
     @NonNull
     @Override
     public HeroViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the layout using the binding class.
         ItemHeroImageBinding binding = ItemHeroImageBinding.inflate(
                 LayoutInflater.from(parent.getContext()),
                 parent,
@@ -35,7 +34,6 @@ public class HeroImageAdapter extends RecyclerView.Adapter<HeroImageAdapter.Hero
     public void onBindViewHolder(@NonNull HeroViewHolder holder, int position) {
         HeroImage item = heroImages.get(position);
 
-        // Access views directly from the binding object.
         holder.binding.ivHeroImage.setImageResource(item.getImageResId());
         holder.binding.tvHeroTitle.setText(item.getTitle());
     }

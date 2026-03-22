@@ -26,7 +26,6 @@ public class Movie implements Parcelable {
     @SerializedName("release_date")
     private String releaseDate;
 
-    // Required for GSON and Parcelable
     public Movie() {}
 
     protected Movie(Parcel in) {

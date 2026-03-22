@@ -62,7 +62,6 @@ public class AddProfileActivity extends AppCompatActivity {
             
             binding.etProfileName.setText(name);
             setProfileAvatar(binding.ivAvatar, selectedAvatar);
-            // Optional: Change title to "Edit Profile"
         }
     }
 
@@ -104,7 +103,6 @@ public class AddProfileActivity extends AppCompatActivity {
         }
 
         if (editProfileId != null) {
-            // Update existing profile
             Map<String, Object> updates = new HashMap<>();
             updates.put("name", name);
             updates.put("avatarUrl", selectedAvatar);
@@ -118,7 +116,6 @@ public class AddProfileActivity extends AppCompatActivity {
                 }
             });
         } else {
-            // Create new profile
             Profile profile = new Profile(
                     UUID.randomUUID().toString(),
                     userId,

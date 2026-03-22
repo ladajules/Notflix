@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:paddingBottom="32dp">
 
-        <!-- Back Button -->
         <ImageButton
             android:id="@+id/ibBack"
             android:layout_width="40dp"
@@ -27,7 +26,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <!-- Notflix Logo -->
         <ImageView
             android:id="@+id/ivNotflixLogo"
             android:layout_width="64dp"
@@ -39,7 +37,6 @@
             app:layout_constraintBottom_toBottomOf="@id/ibBack"
             app:layout_constraintStart_toEndOf="@id/ibBack" />
 
-        <!-- Content Container -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,7 +48,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +55,6 @@
                 style="@style/NetflixText.Title"
                 android:layout_marginBottom="32dp"/>
 
-            <!-- Email Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilEmail"
                 android:layout_width="match_parent"
@@ -83,7 +78,6 @@
                     android:padding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Password Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
@@ -109,7 +103,6 @@
                     android:padding="16dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Remember Me Checkbox -->
             <CheckBox
                 android:id="@+id/checkboxRememberMe"
                 android:layout_width="wrap_content"
@@ -119,7 +112,6 @@
                 android:textSize="14sp"
                 android:buttonTint="@color/text_gray" />
 
-            <!-- Sign In Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSignIn"
                 style="@style/NetflixButton.Primary"
@@ -129,7 +121,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- Progress Bar -->
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
@@ -139,7 +130,6 @@
                 android:indeterminateTint="@color/netflix_red"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- Sign Up Link -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

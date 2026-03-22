@@ -7,7 +7,6 @@
     android:background="@color/netflix_black"
     android:fitsSystemWindows="true">
 
-    <!-- Top Bar Container -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="0dp"
@@ -20,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- NETFLIX Logo -->
         <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="100dp"
@@ -43,7 +41,6 @@
             app:layout_constraintEnd_toStartOf="@id/btnSignIn"
             android:layout_marginEnd="24dp"/>
 
-        <!-- Sign In Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignIn"
             android:layout_width="wrap_content"
@@ -88,7 +85,6 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Dots Indicator -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayoutLanding"
         android:layout_width="wrap_content"
@@ -106,7 +102,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Create Account Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCreateAccount"
         style="@style/Widget.Material3.Button.OutlinedButton"

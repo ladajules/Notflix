@@ -14,7 +14,6 @@ import java.util.List;
 
 public class LandingPagerAdapter extends RecyclerView.Adapter<LandingPagerAdapter.PageViewHolder> {
 
-    // Different titles for each page
     private final List<String> pageTitles = Arrays.asList(
             "Movies, shows,\nand games in just\na few taps",
             "Download and watch\noffline",
@@ -22,7 +21,6 @@ public class LandingPagerAdapter extends RecyclerView.Adapter<LandingPagerAdapte
             "Watch anywhere.\nCancel anytime."
     );
 
-    // Different images for each page
     private final List<Integer> pageImages = Arrays.asList(
             R.drawable.onboarding_2,
             R.drawable.onboarding_3,

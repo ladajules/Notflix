@@ -18,7 +18,7 @@ public class Profile implements Parcelable {
     private long createdAt;
 
     public Profile() {
-        // Required for Firebase
+        // firebase
     }
 
     public Profile(String id, String userId, String name, String avatarUrl, long createdAt) {
@@ -49,7 +49,6 @@ public class Profile implements Parcelable {
         }
     };
 
-    // Getters and Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -65,7 +64,6 @@ public class Profile implements Parcelable {
     public long getCreatedAt() { return createdAt; }
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
 
-    // Convert Profile to Map for Firebase
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
@@ -76,7 +74,6 @@ public class Profile implements Parcelable {
         return map;
     }
 
-    // Create Profile from Firebase document
     public static Profile fromMap(Map<String, Object> map) {
         if (map == null) return null;
         
@@ -94,11 +91,6 @@ public class Profile implements Parcelable {
         }
         
         return profile;
-    }
-
-    // Default Netflix-style avatar options
-    public static List<String> getDefaultAvatars() {
-        return Arrays.asList("avatar_1", "avatar_2", "avatar_3", "avatar_4", "avatar_5");
     }
 
     @Override

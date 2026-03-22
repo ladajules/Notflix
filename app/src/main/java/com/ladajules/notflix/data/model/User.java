@@ -16,7 +16,6 @@ public class User implements Parcelable {
     private long createdAt;
     private long lastLoginAt;
 
-    // Required for Firebase
     public User() {
     }
 
@@ -50,7 +49,6 @@ public class User implements Parcelable {
         }
     };
 
-    // Getters and Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -69,7 +67,6 @@ public class User implements Parcelable {
     public long getLastLoginAt() { return lastLoginAt; }
     public void setLastLoginAt(long lastLoginAt) { this.lastLoginAt = lastLoginAt; }
 
-    // Convert User to Map for Firebase
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
@@ -81,7 +78,6 @@ public class User implements Parcelable {
         return map;
     }
 
-    // Create User from Firebase document
     public static User fromMap(Map<String, Object> map) {
         if (map == null) return null;
         

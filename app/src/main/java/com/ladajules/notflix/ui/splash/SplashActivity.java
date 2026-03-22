@@ -25,13 +25,10 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Initialize PreferenceManager
         preferenceManager = new PreferenceManager(this);
 
-        // Make the activity fullscreen
         setupFullscreen();
 
-        // Navigate after delay
         navigateToNextScreen();
     }
 
@@ -45,19 +42,16 @@ public class SplashActivity extends AppCompatActivity {
     private void navigateToNextScreen() {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent;
-            
-            // If user is logged in with Remember Me, go to Profile Selection
+
             if (preferenceManager.isLoggedIn() && preferenceManager.isRememberMe()) {
                 intent = new Intent(this, ProfileSelectionActivity.class);
             } else {
-                // Otherwise, go to Landing Page
                 intent = new Intent(this, LandingActivity.class);
             }
 
             startActivity(intent);
             finish();
 
-            // Add fade transition
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         }, Constants.SPLASH_DELAY);

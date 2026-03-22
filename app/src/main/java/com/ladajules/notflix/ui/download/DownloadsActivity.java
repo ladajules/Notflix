@@ -89,7 +89,6 @@ public class DownloadsActivity extends AppCompatActivity implements DownloadAdap
 
     @Override
     public void onItemClick(Download download) {
-        // TODO: Open video player
-        Toast.makeText(this, "Playing: " + download.getTitle(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Now playing " + download.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

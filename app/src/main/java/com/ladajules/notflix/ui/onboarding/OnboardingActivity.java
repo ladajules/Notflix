@@ -67,7 +67,6 @@ public class OnboardingActivity extends AppCompatActivity {
     }
 
     private void setupUI() {
-        // Make status bar transparent
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
@@ -76,12 +75,9 @@ public class OnboardingActivity extends AppCompatActivity {
         OnboardingAdapter onboardingAdapter = new OnboardingAdapter(onboardingItems);
         binding.viewPager.setAdapter(onboardingAdapter);
 
-        // Setup dots indicator
         new TabLayoutMediator(binding.tabLayoutOnboarding, binding.viewPager, (tab, position) -> {
-            // No text needed for dots
         }).attach();
 
-        // Listen to page changes
         binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -104,10 +100,8 @@ public class OnboardingActivity extends AppCompatActivity {
 
     private void updateButtonText(int position) {
         if (position == onboardingItems.size() - 1) {
-            // Last page
             binding.btnNext.setText("Get Started");
         } else {
-            // Other pages
             binding.btnNext.setText("Next");
         }
     }
@@ -116,22 +110,18 @@ public class OnboardingActivity extends AppCompatActivity {
         String userId = preferenceManager.getUserId();
 
         if (userId != null) {
-            // Update Firestore
             Map<String, Object> updates = new HashMap<>();
             updates.put("hasCompletedOnboarding", true);
 
             userRepository.updateUser(userId, updates, (success, data, e) -> {
                 if (success) {
-                    // Save locally
                     preferenceManager.setOnboardingCompleted(true);
-                    // Navigate to ProfileSelectionActivity
                     navigateToProfileSelectionActivity();
                 } else {
                     Extensions.showToast(this, "Failed to update: " + (e != null ? e.getMessage() : "Unknown error"));
                 }
             });
         } else {
-            // No user ID, just save locally and navigate
             preferenceManager.setOnboardingCompleted(true);
             navigateToProfileSelectionActivity();
         }

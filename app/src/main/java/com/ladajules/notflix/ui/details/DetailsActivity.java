@@ -15,6 +15,7 @@ import com.ladajules.notflix.adapter.MovieAdapter;
 import com.ladajules.notflix.data.model.CreditsResponse;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.DownloadRepository;
+import com.ladajules.notflix.data.repository.UserListRepository;
 import com.ladajules.notflix.databinding.ActivityDetailsBinding;
 import com.ladajules.notflix.ui.main.MovieViewModel;
 import com.ladajules.notflix.utils.PreferenceManager;
@@ -31,6 +32,7 @@ public class DetailsActivity extends AppCompatActivity {
     private MovieViewModel viewModel;
     private MovieAdapter moreLikeThisAdapter;
     private DownloadRepository downloadRepository;
+    private UserListRepository userListRepository;
     private PreferenceManager preferenceManager;
 
     @Override
@@ -47,6 +49,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         downloadRepository = new DownloadRepository();
+        userListRepository = new UserListRepository();
         preferenceManager = new PreferenceManager(this);
 
         setupViews();
@@ -144,8 +147,18 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         binding.llAddToList.setOnClickListener(v -> {
-            // TODO: Implement My List logic
-            Toast.makeText(this, "Added to your list", Toast.LENGTH_SHORT).show();
+            String profileId = preferenceManager.getSelectedProfileId();
+            if (profileId != null) {
+                userListRepository.addToMyList(profileId, movie, (success, data, e) -> {
+                    if (success) {
+                        Toast.makeText(this, "Added " + movie.getTitle() + " to your list", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Failed to add to list", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Please select a profile first", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

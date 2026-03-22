@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.ladajules.notflix.R;
 import com.ladajules.notflix.adapter.MovieAdapter;
@@ -13,6 +15,7 @@ import com.ladajules.notflix.data.model.Download;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.DownloadRepository;
 import com.ladajules.notflix.data.repository.ProfileRepository;
+import com.ladajules.notflix.data.repository.UserListRepository;
 import com.ladajules.notflix.databinding.ActivityProfileBinding;
 import com.ladajules.notflix.ui.details.DetailsActivity;
 import com.ladajules.notflix.ui.download.DownloadsActivity;
@@ -29,7 +32,10 @@ public class ProfileActivity extends AppCompatActivity {
     private PreferenceManager preferenceManager;
     private ProfileRepository profileRepository;
     private DownloadRepository downloadRepository;
+    private UserListRepository userListRepository;
+    
     private MovieAdapter downloadAdapter;
+    private MovieAdapter myListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +46,33 @@ public class ProfileActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(this);
         profileRepository = new ProfileRepository();
         downloadRepository = new DownloadRepository();
+        userListRepository = new UserListRepository();
 
         setupRecyclerViews();
         setupListeners();
         loadUserProfile();
         loadDownloads();
+        loadMyList();
     }
 
     private void setupRecyclerViews() {
-        // same logic as MainActivity
         downloadAdapter = new MovieAdapter(movie -> {
             Intent intent = new Intent(ProfileActivity.this, DetailsActivity.class);
             intent.putExtra(DetailsActivity.EXTRA_MOVIE, movie);
             startActivity(intent);
         });
+        binding.rvDownloads.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.rvDownloads.setAdapter(downloadAdapter);
+
+        myListAdapter = new MovieAdapter(movie -> {
+            Intent intent = new Intent(ProfileActivity.this, DetailsActivity.class);
+            intent.putExtra(DetailsActivity.EXTRA_MOVIE, movie);
+            startActivity(intent);
+        }, true);
+
+        binding.rvMyList.setLayoutManager(new GridLayoutManager(this, 3));
+        binding.rvMyList.setNestedScrollingEnabled(false); // Smooth scrolling inside NestedScrollView
+        binding.rvMyList.setAdapter(myListAdapter);
     }
 
     private void setupListeners() {
@@ -116,25 +134,34 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void loadMyList() {
+        String profileId = preferenceManager.getSelectedProfileId();
+        if (profileId != null) {
+            userListRepository.getMyList(profileId, (success, movies, e) -> {
+                if (success && movies != null) {
+                    myListAdapter.setMovies(movies);
+                    binding.tvMyList.setVisibility(movies.isEmpty() ? View.GONE : View.VISIBLE);
+                    binding.rvMyList.setVisibility(movies.isEmpty() ? View.GONE : View.VISIBLE);
+                }
+            });
+        }
+    }
+
     private void updateDownloadsPreview(List<Download> downloads) {
         List<Movie> moviePreviews = new ArrayList<>();
         for (Download d : downloads) {
             Movie m = new Movie();
             m.setId(d.getMovieId());
             m.setTitle(d.getTitle());
-
             String path = d.getPosterPath();
             if (path == null || path.isEmpty()) {
                 path = d.getBackdropPath();
             }
-            
             if (path != null && !path.startsWith("/")) {
                 path = "/" + path;
             }
-            
             m.setPosterPath(path);
             m.setBackdropPath(d.getBackdropPath());
-            
             moviePreviews.add(m);
         }
         downloadAdapter.setMovies(moviePreviews);
@@ -164,5 +191,6 @@ public class ProfileActivity extends AppCompatActivity {
             binding.bottomNavBar.setSelectedItemId(R.id.nav_profile);
         }
         loadDownloads();
+        loadMyList();
     }
 }

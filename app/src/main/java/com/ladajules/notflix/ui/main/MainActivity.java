@@ -16,6 +16,7 @@ import com.ladajules.notflix.R;
 import com.ladajules.notflix.adapter.MovieAdapter;
 import com.ladajules.notflix.data.model.Movie;
 import com.ladajules.notflix.data.repository.ProfileRepository;
+import com.ladajules.notflix.data.repository.UserListRepository;
 import com.ladajules.notflix.databinding.ActivityMainBinding;
 import com.ladajules.notflix.ui.details.DetailsActivity;
 import com.ladajules.notflix.ui.download.DownloadsActivity;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private MovieViewModel viewModel;
     private PreferenceManager preferenceManager;
     private ProfileRepository profileRepository;
+    private UserListRepository userListRepository;
 
     private MovieAdapter popularAdapter;
     private MovieAdapter trendingAdapter;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         preferenceManager = new PreferenceManager(this);
         profileRepository = new ProfileRepository();
+        userListRepository = new UserListRepository();
         viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
 
         initViews();
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupObservers() {
         viewModel.getPopularMovies().observe(this, movies -> {
-            if (movies != null) {
+            if (movies != null && !movies.isEmpty()) {
                 popularAdapter.setMovies(movies);
                 updateHeroBanner(movies.get(0));
             }
@@ -97,6 +100,21 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(movie.getFullBackdropPath())
                 .into(binding.ivHeroBanner);
+
+        binding.btnMyList.setOnClickListener(v -> {
+            String profileId = preferenceManager.getSelectedProfileId();
+            if (profileId != null) {
+                userListRepository.addToMyList(profileId, movie, (success, data, e) -> {
+                    if (success) {
+                        Toast.makeText(this, "Added " + movie.getTitle() + " to your list", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Failed to add to list", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Please select a profile first", Toast.LENGTH_SHORT).show();
+            }
+        });
         
         binding.btnPlay.setOnClickListener(v -> {
             Toast.makeText(this, "Now playing " + movie.getTitle(), Toast.LENGTH_SHORT).show();
